@@ -9,12 +9,12 @@
 <body>
     <header class="main-header">
         <div class="container">
-            <div class="logo-container">
-                <a href="index.html">
-                    <img src="logo.png" alt="โลโก้ร้านค้า" class="logo">
-                </a>
-            </div>
             <nav class="main-nav">
+                <div class="logo-container">
+                    <a href="index.php">
+                        <img src="logo.png" alt="โลโก้ร้านค้า" class="logo">
+                    </a>
+                </div>
                 <ul>
                     <li><a href="#products">หมวดหมู่สินค้า</a>
                         <ul class="dropdown">
@@ -25,11 +25,11 @@
                     </li>
                     <li><a href="#about">เกี่ยวกับเรา</a></li>
                 </ul>
+                <div class="header-icons">
+                    <span id="cart-icon" onclick="toggleCartPopup()">&#128722;</span>
+                    <span class="hamburger-menu" onclick="toggleHamburgerMenu()">&#9776;</span>
+                </div>
             </nav>
-            <div class="header-icons">
-                <span id="cart-icon" onclick="toggleCartPopup()">&#128722;</span>
-                <span class="hamburger-menu" onclick="toggleHamburgerMenu()">&#9776;</span>
-            </div>
         </div>
     </header>
 
