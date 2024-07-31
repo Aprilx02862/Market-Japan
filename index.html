@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ร้านค้าออนไลน์สไตล์ญี่ปุ่น</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="container">
+            <div class="logo-container">
+                <a href="index.php">
+                    <img src="logo.png" alt="โลโก้ร้านค้า" class="logo">
+                </a>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#products">หมวดหมู่สินค้า</a>
+                        <ul class="dropdown">
+                            <li><a href="#category1">หมวดหมู่ 1</a></li>
+                            <li><a href="#category2">หมวดหมู่ 2</a></li>
+                            <li><a href="#category3">หมวดหมู่ 3</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#about">เกี่ยวกับเรา</a></li>
+                </ul>
+            </nav>
+            <div class="header-icons">
+                <span id="cart-icon" onclick="toggleCartPopup()">&#128722;</span>
+                <span class="hamburger-menu" onclick="toggleHamburgerMenu()">&#9776;</span>
+            </div>
+        </div>
+    </header>
+
+    <div id="cart-popup" class="cart-popup">
+        <div class="cart-popup-content">
+            <span class="close" onclick="toggleCartPopup()">&times;</span>
+            <h2>ตะกร้าของฉัน</h2>
+            <ul id="cart-items"></ul>
+            <p id="empty-cart">ไม่มีสินค้าในตะกร้า</p>
+            <p id="cart-total">ราคารวม: ฿0</p>
+            <button id="checkout-button" style="display:none;" onclick="checkout()">สั่งซื้อสินค้า</button>
+        </div>
+    </div>
+
+    <section id="products" class="products-section">
+        <h2>สินค้าของเรา</h2>
+        <div class="product-grid">
+            <div class="product-item">
+                <img src="product1.png" alt="สินค้า 1">
+                <h3>DHC</h3>
+                <p>รายละเอียดสินค้า 1</p>
+                <p>ราคา: ฿500</p>
+                <button onclick="addToCart('DHC', 'รายละเอียดสินค้า 1', 500)">เพิ่มลงในตะกร้า</button>
+            </div>
+            <div class="product-item">
+                <img src="product2.jpg" alt="สินค้า 2">
+                <h3>สินค้า 2</h3>
+                <p>รายละเอียดสินค้า 2</p>
+                <p>ราคา: ฿600</p>
+                <button onclick="addToCart('สินค้า 2', 'รายละเอียดสินค้า 2', 600)">เพิ่มลงในตะกร้า</button>
+            </div>
+            <!-- เพิ่มสินค้าอื่น ๆ ตามต้องการ -->
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 MODTOKYO JAPAN SHOPPING. สงวนลิขสิทธิ์.</p>
+        <p> ติดต่อ</p>
+        <a href="https://www.facebook.com" target="_blank">Facebook</a>
+    </footer>
+
+    <div id="hamburger-menu" class="hamburger-menu-content">
+        <a href="#products">หมวดหมู่สินค้า</a>
+        <a href="#about">เกี่ยวกับเรา</a>
+        <div id="auth-links">
+            <a href="login.php">Login</a>
+            <a href="register.php">Register</a>
+        </div>
+    </div>
+
+    <script>
+        var cart = [];
+        var totalPrice = 0;
+
+        function toggleCartPopup() {
+            var popup = document.getElementById("cart-popup");
+            popup.style.display = (popup.style.display === "block") ? "none" : "block";
+        }
+
+        function toggleHamburgerMenu() {
+            var menu = document.getElementById("hamburger-menu");
+            menu.style.display = (menu.style.display === "block") ? "none" : "block";
+        }
+
+        function addToCart(productName, productDetails, productPrice) {
+            var cartItems = document.getElementById("cart-items");
+            var emptyCartMessage = document.getElementById("empty-cart");
+            var totalElement = document.getElementById("cart-total");
+            var checkoutButton = document.getElementById("checkout-button");
+
+            cart.push({ name: productName, details: productDetails, price: productPrice });
+            totalPrice += productPrice;
+
+            var newItem = document.createElement("li");
+            var itemText = document.createElement("span");
+            itemText.textContent = productName + " - " + productDetails + " - ราคา: ฿" + productPrice;
+            
+            var removeButton = document.createElement("button");
+            removeButton.textContent = "ลบ";
+            removeButton.onclick = function() {
+                removeFromCart(productName, productDetails, productPrice, newItem);
+            };
+
+            newItem.appendChild(itemText);
+            newItem.appendChild(removeButton);
+            cartItems.appendChild(newItem);
+            
+            emptyCartMessage.style.display = "none";
+            totalElement.textContent = "ราคารวม: ฿" + totalPrice;
+            checkoutButton.style.display = (cart.length > 0) ? "block" : "none";
+        }
+
+        function removeFromCart(productName, productDetails, productPrice, itemElement) {
+            var cartItems = document.getElementById("cart-items");
+            var emptyCartMessage = document.getElementById("empty-cart");
+            var totalElement = document.getElementById("cart-total");
+            var checkoutButton = document.getElementById("checkout-button");
+
+            cart = cart.filter(item => !(item.name === productName && item.details === productDetails && item.price === productPrice));
+            totalPrice -= productPrice;
+
+            cartItems.removeChild(itemElement);
+            totalElement.textContent = "ราคารวม: ฿" + totalPrice;
+            if (cartItems.children.length === 0) {
+                emptyCartMessage.style.display = "block";
+            }
+            checkoutButton.style.display = (cart.length > 0) ? "block" : "none";
+        }
+
+        function checkout() {
+            alert("ขอบคุณที่สั่งซื้อสินค้า!");
+            cart = [];
+            totalPrice = 0;
+            document.getElementById("cart-items").innerHTML = '';
+            document.getElementById("cart-total").textContent = "ราคารวม: ฿0";
+            document.getElementById("empty-cart").style.display = "block";
+            document.getElementById("checkout-button").style.display = "none";
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            var isLoggedIn = <?php echo isset($_SESSION['UserID']) ? 'true' : 'false'; ?>;
+            if (isLoggedIn) {
+                document.getElementById("cart-icon").style.display = "inline";
+                document.getElementById("auth-links").style.display = "none";
+            } else {
+                document.getElementById("cart-icon").style.display = "none";
+                document.getElementById("auth-links").style.display = "block";
+            }
+        });
+    </script>
+</body>
+</html>
