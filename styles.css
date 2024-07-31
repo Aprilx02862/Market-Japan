@@ -13,18 +13,15 @@ body, html {
     align-items: center; */
 }
 
+
 /* .container .main-nav {
     align-items: right;
 } */
 
-/* .main-header {
-    background-color: #fff;
-    border-bottom: 1px solid #ddd;
-    padding: 10px 0;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-} */
+.content {
+    margin-top: 10px; /* ทำให้เนื้อหาไม่ทับกับ navbar */
+    padding: 20px;
+}
 
 /* .logo-container {
     display: flex;
@@ -39,9 +36,11 @@ body, html {
 
 .main-nav {
     display: flex;
+    height: 100px;
     justify-content: space-between;
     align-items: center;
     padding: 1rem;
+    border-bottom: 1px solid #000;
     
 }
 
